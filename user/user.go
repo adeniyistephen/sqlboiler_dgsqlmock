@@ -15,8 +15,11 @@ type user struct {
 	LastName  string
 }
 
+type Api struct {
+	db *sql.DB
+}
 
-func InsertUser(db *sql.DB) {
+func (a *Api) InsertUser() error {
 
 	u := user{
 		FirstName: "John",
@@ -27,33 +30,31 @@ func InsertUser(db *sql.DB) {
 	u2 := models.UserTable2{Firstname: u.FirstName, Lastname: u.LastName}
 	u3 := models.UserTable3{Firstname: u.FirstName, Lastname: u.LastName}
 
-	tx, err := db.BeginTx(context.Background(), nil)
+	_, err := a.db.BeginTx(context.Background(), nil)
 	dieIf(err)
 
-	err = u1.Insert(context.Background(), db, boil.Infer())
+	err = u1.Insert(context.Background(), a.db, boil.Infer())
 	dieIf(err)
 	fmt.Println("Inserted user", u.ID)
-	err = u2.Insert(context.Background(), db, boil.Infer())
+	err = u2.Insert(context.Background(), a.db, boil.Infer())
 	dieIf(err)
 	fmt.Println("Inserted user", u2.ID)
-	err = u3.Insert(context.Background(), db, boil.Infer())
+	err = u3.Insert(context.Background(), a.db, boil.Infer())
 	dieIf(err)
 	fmt.Println("Inserted user", u3.ID)
 
 	// Delete users from tables
-	// user1, err := models.UserTable1s().DeleteAll(context.Background(), db)
-	// dieIf(err)
-	// fmt.Println("Deleted user", user1)
-	// user2, err := models.UserTable2s().DeleteAll(context.Background(), db)
-	// dieIf(err)
-	// fmt.Println("Deleted user", user2)
-	// user3, err := models.UserTable3s().DeleteAll(context.Background(), db)
-	// dieIf(err)
-	// fmt.Println("Deleted user", user3)
+	user1, err := models.UserTable1s().DeleteAll(context.Background(), a.db)
+	dieIf(err)
+	fmt.Println("Deleted user", user1)
+	user2, err := models.UserTable2s().DeleteAll(context.Background(), a.db)
+	dieIf(err)
+	fmt.Println("Deleted user", user2)
+	user3, err := models.UserTable3s().DeleteAll(context.Background(), a.db)
+	dieIf(err)
+	fmt.Println("Deleted user", user3)
 
-	// Rollback or commit
-	tx.Commit()
-	tx.Rollback()
+	return nil
 }
 
 
