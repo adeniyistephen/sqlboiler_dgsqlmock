@@ -52,7 +52,7 @@ func InsertUser(db *sql.DB) {
 	// fmt.Println("Deleted user", user3)
 
 	// Rollback or commit
-	 tx.Commit()
+	tx.Commit()
 	tx.Rollback()
 }
 
