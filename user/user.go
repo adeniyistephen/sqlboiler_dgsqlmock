@@ -40,19 +40,19 @@ func InsertUser(db *sql.DB) {
 	dieIf(err)
 	fmt.Println("Inserted user", u3.ID)
 
-
-	user1, err := models.UserTable1s().DeleteAll(context.Background(), db)
-	dieIf(err)
-	fmt.Println("Deleted user", user1)
-	user2, err := models.UserTable2s().DeleteAll(context.Background(), db)
-	dieIf(err)
-	fmt.Println("Deleted user", user2)
-	user3, err := models.UserTable3s().DeleteAll(context.Background(), db)
-	dieIf(err)
-	fmt.Println("Deleted user", user3)
+	// Delete users from tables
+	// user1, err := models.UserTable1s().DeleteAll(context.Background(), db)
+	// dieIf(err)
+	// fmt.Println("Deleted user", user1)
+	// user2, err := models.UserTable2s().DeleteAll(context.Background(), db)
+	// dieIf(err)
+	// fmt.Println("Deleted user", user2)
+	// user3, err := models.UserTable3s().DeleteAll(context.Background(), db)
+	// dieIf(err)
+	// fmt.Println("Deleted user", user3)
 
 	// Rollback or commit
-	tx.Commit()
+	 tx.Commit()
 	tx.Rollback()
 }
 
